@@ -1,9 +1,10 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:news_app/layout/Home/Cubit/Cubit.dart';
-import 'package:news_app/layout/Home/Cubit/States.dart';
-import 'package:news_app/shared/Componenet/component.dart';
+
+import '../../layout/Home/Cubit/Cubit.dart';
+import '../../layout/Home/Cubit/States.dart';
+import '../../shared/Componenet/component.dart';
 
 class BusinessScreen extends StatelessWidget {
   const BusinessScreen({Key? key}) : super(key: key);

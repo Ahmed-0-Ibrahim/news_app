@@ -2,16 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:news_app/layout/Home/Cubit/Cubit.dart';
-import 'package:news_app/layout/Home/Cubit/States.dart';
-import 'package:news_app/layout/Home/Home.dart';
-import 'package:news_app/shared/Cubit/cubit.dart';
-import 'package:news_app/shared/Cubit/states.dart';
-import 'package:news_app/shared/Style/bloc_observer.dart';
-import 'package:news_app/shared/network/local/cashe_helper.dart';
-import 'package:news_app/shared/network/remote/dio_helper.dart';
+import 'package:newsapp/shared/Cubit/cubit.dart';
+import 'package:newsapp/shared/Cubit/states.dart';
+import 'package:newsapp/shared/Style/bloc_observer.dart';
+import 'package:newsapp/shared/network/local/cashe_helper.dart';
+import 'package:newsapp/shared/network/remote/dio_helper.dart';
 
-void main()async {
+import 'layout/Home/Cubit/Cubit.dart';
+import 'layout/Home/Home.dart';
+
+
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Bloc.observer = MyBlocObserver();
   DioHelper.init();
@@ -25,8 +26,15 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => AppCubit(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => NewsCubit()..getBusiness("us"),
+        ),
+        BlocProvider(
+          create: (context) => AppCubit(),
+        )
+      ],
       child: BlocConsumer<AppCubit, AppStates>(
         listener: (context, state) {},
         builder: (context, state) => MaterialApp(
@@ -35,7 +43,7 @@ class MyApp extends StatelessWidget {
             primarySwatch: Colors.deepOrange,
             scaffoldBackgroundColor: Colors.white,
             textTheme: const TextTheme(
-              bodyText1: TextStyle(
+              bodyLarge: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
                   overflow: TextOverflow.ellipsis,
@@ -55,12 +63,13 @@ class MyApp extends StatelessWidget {
               elevation: 0,
             ),
             bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-              // elevation: 20
+                // elevation: 20
                 selectedItemColor: Colors.deepOrange,
                 elevation: 20,
                 unselectedItemColor: Colors.black),
           ),
           darkTheme: ThemeData(
+            primarySwatch: Colors.deepOrange,
             scaffoldBackgroundColor: HexColor('333739'),
             appBarTheme: AppBarTheme(
               backgroundColor: HexColor('333739'),
@@ -74,7 +83,7 @@ class MyApp extends StatelessWidget {
               ),
             ),
             textTheme: const TextTheme(
-              bodyText1: TextStyle(
+              bodyLarge: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
                   overflow: TextOverflow.ellipsis,

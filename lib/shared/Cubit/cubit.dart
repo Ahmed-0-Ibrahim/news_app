@@ -1,7 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:news_app/shared/Cubit/states.dart';
-import 'package:news_app/shared/network/local/cashe_helper.dart';
+import 'package:newsapp/shared/Cubit/states.dart';
+
+import '../network/local/cashe_helper.dart';
 
 class AppCubit extends Cubit<AppStates>{
   AppCubit():super(AppInitialState());

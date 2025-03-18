@@ -1,7 +1,9 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:news_app/layout/Home/Cubit/States.dart';
-import 'package:news_app/shared/network/remote/dio_helper.dart';
+
+import '../../../shared/network/remote/dio_helper.dart';
+import 'States.dart';
+
 
 class NewsCubit extends Cubit<NewsStates> {
   NewsCubit() : super(NewsInitialStates());
@@ -9,8 +11,8 @@ class NewsCubit extends Cubit<NewsStates> {
   List business = [];
   List sports = [];
   List science = [];
+  List search = [];
   String category = 'business';
-
 
   static NewsCubit get(context) => BlocProvider.of(context);
 
@@ -18,8 +20,6 @@ class NewsCubit extends Cubit<NewsStates> {
     currentIndex = index;
     emit(ChangeCurrentIndexState());
   }
-
-
 
   void changeCategory(c) {
     category = c;
@@ -49,5 +49,21 @@ class NewsCubit extends Cubit<NewsStates> {
         print("erorr is ${e.toString()}");
       });
     }
+  }
+
+  void getSearch(value) {
+    emit(NewsLoadingState());
+    search = [];
+    DioHelper.getData('v2/everything', {
+      'q': value,
+      'apiKey': '62e8bbaa85d74fca8a587b117f91bda1'
+    }).then((value) {
+      search = value.data['articles'];
+
+      emit(NewsGetSearchSuccessState());
+    }).catchError((e) {
+      emit(NewsGetSearchErrorState(e.toString()));
+      print("erorr is ${e.toString()}");
+    });
   }
 }

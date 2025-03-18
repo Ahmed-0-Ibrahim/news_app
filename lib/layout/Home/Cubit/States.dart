@@ -16,3 +16,12 @@ class NewsGetBusinessErrorState extends NewsStates{
 
 class NewsChangeCategoryState extends NewsStates{}
 
+class NewsSearchLoadingState extends NewsStates{}
+
+class NewsGetSearchSuccessState extends NewsStates{}
+
+class NewsGetSearchErrorState extends NewsStates{
+  late final String error;
+
+  NewsGetSearchErrorState(this.error);
+}
